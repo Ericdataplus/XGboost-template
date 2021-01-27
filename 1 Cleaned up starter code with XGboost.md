@@ -30,64 +30,9 @@ def ignore_warn(*args, **kwargs):
     pass
 warnings.warn = ignore_warn()     # This is the first cell to import everything in and setup.
 # missingno.matrix(df, figsize = (30, 10)) # quick way to check for missing data
-```
 
-
-```python
 df = pd.read_csv('', encoding='UTF-8' or 'Latin1')
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    FileNotFoundError                         Traceback (most recent call last)
-
-    <ipython-input-2-6281c11387ea> in <module>
-    ----> 1 data = pd.read_csv('', encoding='UTF-8' or 'Latin1')
-    
-
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)
-        674         )
-        675 
-    --> 676         return _read(filepath_or_buffer, kwds)
-        677 
-        678     parser_f.__name__ = name
-    
-
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in _read(filepath_or_buffer, kwds)
-        446 
-        447     # Create the parser.
-    --> 448     parser = TextFileReader(fp_or_buf, **kwds)
-        449 
-        450     if chunksize or iterator:
-    
-
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in __init__(self, f, engine, **kwds)
-        878             self.options["has_index_names"] = kwds["has_index_names"]
-        879 
-    --> 880         self._make_engine(self.engine)
-        881 
-        882     def close(self):
-    
-
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in _make_engine(self, engine)
-       1112     def _make_engine(self, engine="c"):
-       1113         if engine == "c":
-    -> 1114             self._engine = CParserWrapper(self.f, **self.options)
-       1115         else:
-       1116             if engine == "python":
-    
-
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in __init__(self, src, **kwds)
-       1872         if kwds.get("compression") is None and encoding:
-       1873             if isinstance(src, str):
-    -> 1874                 src = open(src, "rb")
-       1875                 self.handles.append(src)
-       1876 
-    
-
-    FileNotFoundError: [Errno 2] No such file or directory: ''
-
 
 ## This cell will be the steps with the kaggle links to quickly implement in own project quickest this is an attempt at complete effiency 
 
