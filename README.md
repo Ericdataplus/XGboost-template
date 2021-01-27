@@ -40,7 +40,7 @@ to the part that's a bit more complex
 
 - imputing and onehotencoding - [imputing](https://www.kaggle.com/alexisbcook/missing-values) and [onehotencoding](https://www.kaggle.com/alexisbcook/categorical-variables) but these two are bundled together in [pipelines kaggle course](https://www.kaggle.com/alexisbcook/pipelines) 
 
-## then after that you can do the model running part and error evualtion part
+## then after that you can do the model running part and error evaluation part
 
 - usually xgboost and mean absolute error with maybe some cross validation [XGBoost](https://www.kaggle.com/alexisbcook/xgboost) -  [cross validation](https://www.kaggle.com/alexisbcook/cross-validation)
 
