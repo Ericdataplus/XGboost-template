@@ -1,5 +1,7 @@
-# XGboost-template
-This is starter code for a machine learning workflow using the best machine learning model for tabular data
+This is my go to for me doing machine learning for prodcution with getting really use to one algorithm 
+
+[Kaggle to reference](https://www.kaggle.com/learn/intermediate-machine-learning)
+
 
 ```python
 import numpy as np
@@ -28,64 +30,68 @@ def ignore_warn(*args, **kwargs):
     pass
 warnings.warn = ignore_warn()     # This is the first cell to import everything in and setup.
 # missingno.matrix(df, figsize = (30, 10)) # quick way to check for missing data
+
+df = pd.read_csv('', encoding='UTF-8' or 'Latin1')
+```
+
+## This cell will be the steps with the kaggle links to quickly implement in own project quickest this is an attempt at complete effiency 
+
+to the part that's a bit more complex 
+
+- imputing and onehotencoding - [imputing](https://www.kaggle.com/alexisbcook/missing-values) and [onehotencoding](https://www.kaggle.com/alexisbcook/categorical-variables) but these two are bundled together in [pipelines kaggle course](https://www.kaggle.com/alexisbcook/pipelines) 
+
+## then after that you can do the model running part and error evualtion part
+
+- usually xgboost and mean absolute error with maybe some cross validation [XGBoost](https://www.kaggle.com/alexisbcook/xgboost) -  [cross validation](https://www.kaggle.com/alexisbcook/cross-validation)
+
+As far as I know now that's the hardest part and then repeat through messing with training data and model parameters or even setting up different models to predict with their parameters. 
+
+If ready for people to use as app or website think about data leakage [kaggle data leakage](https://www.kaggle.com/alexisbcook/data-leakage)
+
+This cell here pretty much condensed all of this notebook lol
+
+Above is pretty much all of what you need to know to implement machine learning in the real world when your new to the machine learning practice. 
+
+
+```python
+
 ```
 
 
 ```python
-df = pd.read_csv('', encoding='UTF-8' or 'Latin1')
+
 ```
 
 
-    ---------------------------------------------------------------------------
+```python
+# most all projects will need imputation and one-hot encoding so set those up in a pipeline
+```
 
-    FileNotFoundError                         Traceback (most recent call last)
 
-    <ipython-input-2-6281c11387ea> in <module>
-    ----> 1 data = pd.read_csv('', encoding='UTF-8' or 'Latin1')
-    
+```python
+my_model = XGBRegressor(n_estimators=1000, learning_rate=0.05, n_jobs=6)
 
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)
-        674         )
-        675 
-    --> 676         return _read(filepath_or_buffer, kwds)
-        677 
-        678     parser_f.__name__ = name
-    
+y = df['']
+features = ['', '', '', '', '' , '', '', '']
+X = df[features]
 
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in _read(filepath_or_buffer, kwds)
-        446 
-        447     # Create the parser.
-    --> 448     parser = TextFileReader(fp_or_buf, **kwds)
-        449 
-        450     if chunksize or iterator:
-    
+X_train, X_val, y_train, y_val = train_test_split(X, y, random_state = 0)
 
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in __init__(self, f, engine, **kwds)
-        878             self.options["has_index_names"] = kwds["has_index_names"]
-        879 
-    --> 880         self._make_engine(self.engine)
-        881 
-        882     def close(self):
-    
 
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in _make_engine(self, engine)
-       1112     def _make_engine(self, engine="c"):
-       1113         if engine == "c":
-    -> 1114             self._engine = CParserWrapper(self.f, **self.options)
-       1115         else:
-       1116             if engine == "python":
-    
+my_model.fit(X_train, y_train, 
+             early_stopping_rounds=5, 
+             eval_set=[(X_val, y_val)], 
+             verbose=False)
 
-    ~\anaconda3\lib\site-packages\pandas\io\parsers.py in __init__(self, src, **kwds)
-       1872         if kwds.get("compression") is None and encoding:
-       1873             if isinstance(src, str):
-    -> 1874                 src = open(src, "rb")
-       1875                 self.handles.append(src)
-       1876 
-    
 
-    FileNotFoundError: [Errno 2] No such file or directory: ''
 
+predictions = my_model.predict(X_val)
+```
+
+
+```python
+
+```
 
 ## Steps to consider
 
@@ -99,11 +105,32 @@ df = pd.read_csv('', encoding='UTF-8' or 'Latin1')
 
 
 ```python
-# kaggle reference (https://www.kaggle.com/alexisbcook/pipelines)  
+# imputer setup without pipeline 
 
-# pipeline 
-# from sklearn.compose import ColumnTransformer
-# from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+
+# Preprocessing for numerical data
+numerical_transformer = SimpleImputer(strategy='constant')
+
+# Preprocessing for categorical data
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# Bundle preprocessing for numerical and categorical data
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_cols),
+        ('cat', categorical_transformer, categorical_cols)
+    ])
+
+------------------------------------------------------------------------------
+
+from sklearn.metrics import mean_absolute_error
 
 # Bundle preprocessing and modeling code in a pipeline
 my_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
@@ -112,6 +139,45 @@ my_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
 
 # Preprocessing of training data, fit model 
 my_pipeline.fit(X_train, y_train)
+
+# Preprocessing of validation data, get predictions
+preds = my_pipeline.predict(X_valid)
+
+# Evaluate the model
+score = mean_absolute_error(y_valid, preds)
+print('MAE:', score)
+
+-----------------------------------------------------------------------------------
+```
+
+
+      File "<ipython-input-1-f33d38596ec9>", line 24
+        ------------------------------------------------------------------------------
+                                                                                      ^
+    SyntaxError: invalid syntax
+    
+
+
+
+```python
+
+```
+
+
+```python
+# kaggle reference (https://www.kaggle.com/alexisbcook/pipelines)  
+
+# pipeline 
+# from sklearn.compose import ColumnTransformer
+# from sklearn.pipeline import Pipeline
+
+# Bundle preprocessing and modeling code in a pipeline
+my_pipeline = Pipeline(steps=[('preprocessor', preprocessor),   # pick model and imputer and onehotencoding
+                              ('model', model)
+                             ]) # usually imputer, onehotencoding and then model
+
+# Preprocessing of training data, fit model 
+my_pipeline.fit(X_train, y_train)  
 
 # Preprocessing of validation data, get predictions
 preds = my_pipeline.predict(X_val)
