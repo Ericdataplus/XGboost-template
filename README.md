@@ -47,8 +47,6 @@ This cell here pretty much condensed all of this notebook lol
 
 Above is pretty much all of what you need to know to implement machine learning in the real world when your new to the machine learning practice. 
 
-list comprehensions are used quite a bit with filtering data real quick so get use to them as they will be invaluable in no time and a nice advanced skill to prove you know what you're doing fairly quickly. 
-
 
 ```python
 my_model = XGBRegressor(n_estimators=1000, learning_rate=0.05, n_jobs=6)
@@ -129,14 +127,6 @@ print('MAE:', score)
 ```
 
 
-      File "<ipython-input-1-f33d38596ec9>", line 24
-        ------------------------------------------------------------------------------
-                                                                                      ^
-    SyntaxError: invalid syntax
-    
-
-
-
 ```python
 # kaggle reference (https://www.kaggle.com/alexisbcook/pipelines)  
 
@@ -187,22 +177,6 @@ df['categorical_label'] = le.transform(df.fruit)
 
 df['categorical_label'] = le.inverse_transform(df['categorical_label']) 
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-4-61b4b1234dea> in <module>
-          4 
-          5 le = preprocessing.LabelEncoder()
-    ----> 6 le.fit(df.fruit)
-          7 df['categorical_label'] = le.transform(df.fruit)
-          8 
-    
-
-    NameError: name 'df' is not defined
-
 
 
 ```python
