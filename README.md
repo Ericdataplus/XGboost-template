@@ -82,7 +82,6 @@ print("Mean Absolute Error: " + str(mean_absolute_error(predictions, y_val)))
 
 
 ```python
-# imputer setup without pipeline 
 
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
