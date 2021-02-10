@@ -125,7 +125,6 @@ preds = my_pipeline.predict(X_valid)
 score = mean_absolute_error(y_valid, preds)
 print('MAE:', score)
 
------------------------------------------------------------------------------------
 ```
 
 
